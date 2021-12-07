@@ -1,0 +1,17 @@
+apply plugin: "com.axelor.app-module"
+
+apply from: "../version.gradle"
+
+apply {
+	version = "0.0.1"
+}
+
+axelor {
+	title "PHX MRO"
+	description "PHX MRO for B1 Cloud"
+        removable true
+}
+
+dependencies {
+	api project(":modules:axelor-base")
+}

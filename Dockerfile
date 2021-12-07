@@ -53,10 +53,16 @@ RUN git submodule foreach git pull origin master
 COPY application.properties /app/axelor-erp/src/main/resources/application.properties
 COPY ./abs/build.gradle /app/axelor-erp/build.gradle
 
+COPY ./adk/axelor-web/src/main/webapp/img/axelor.png          /app/axelor-erp/src/main/webapp/img/axelor.png
+
 COPY ./abs/axelor-base/src/main/resources/views/Selects.xml   /app/axelor-erp/modules/axelor-open-suite/axelor-base/src/main/resources/views/Selects.xml
 COPY ./abs/axelor-web/src/main/resources/i18n/messages_zh.csv /app/axelor-erp/modules/axelor-open-suite/axelor-web/src/main/resources/i18n/messages_zh.csv 
 
 RUN git status .
+
+#
+COPY ./modules/phx-mro /app/axelor-erp/modules/axelor-open-suite/phx-mro
+
 RUN ./gradlew -x test build
 
 #deploy
