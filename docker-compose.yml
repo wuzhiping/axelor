@@ -1,0 +1,44 @@
+version: '2'
+services:
+  axelor:
+    image: shawoo/axelor
+    restart: always
+    depends_on:
+      - mysqldb
+      - postgresdb
+    links:
+      - mysqldb
+      - postgresdb
+    ports:
+      - "8786:8080" 
+    command: /bin/bash
+    volumes:
+      - ./ROOT:/usr/local/tomcat/webapps/ROOT
+      - ./application.properties:/usr/local/tomcat/application.properties     
+    stdin_open: true
+    tty: true
+    privileged: true
+
+  postgresdb:
+    image: postgres:10
+    volumes:
+      - "./postgres/data:/var/lib/postgresql/data"
+    restart: always
+    environment:
+      POSTGRES_DB: axelor
+      POSTGRES_USER: axelor
+      POSTGRES_PASSWORD: axelor
+
+  mysqldb:
+    image: shawoo/mysql:5.7.15
+    restart: always
+    #ports:
+    #  - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: axelor
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./mysql/data:/var/lib/mysql/
+      - ./mysql/config:/etc/mysql/conf.d/
+
