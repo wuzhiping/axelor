@@ -1,0 +1,83 @@
+buildscript {
+  apply from: "gradle/repos.gradle"
+}
+
+apply plugin: "eclipse"
+apply plugin: "idea"
+
+apply from: "version.gradle"
+
+subprojects {
+  apply plugin: "maven"
+  apply plugin: "maven-publish"
+
+  apply from: "${rootDir}/gradle/libs.gradle"
+  apply from: "${rootDir}/gradle/common.gradle"
+  apply from: "${rootDir}/gradle/jacoco.gradle"
+
+  apply plugin: com.axelor.gradle.support.JavaSupport
+  apply plugin: com.axelor.gradle.support.EclipseSupport
+  apply plugin: com.axelor.gradle.support.LicenseSupport
+  apply plugin: com.axelor.gradle.support.PublishSupport
+
+  group = "com.axelor"
+  version = rootProject.version
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+
+  afterEvaluate {
+    test {
+      forkEvery 1
+      maxParallelForks 4
+
+      beforeTest { descriptor ->
+        logger.lifecycle("Running: " + descriptor)
+      }
+    }
+  }
+
+  jar {
+    manifest {
+      attributes(
+        'Implementation-Title': project.name,
+        'Implementation-Version': project.version,
+        'Implementation-Vendor': 'Axelor',
+        'Implementation-Vendor-Id': 'com.axelor',
+        'Implementation-Vendor-Url': 'http://axelor.com',
+        'Specification-Title': project.name,
+        'Specification-Version': project.version,
+        'Specification-Vendor': 'Axelor')
+    }
+  }
+}
+
+task updateVersion(type: com.axelor.gradle.tasks.UpdateVersion) {
+  description "Update version text in source files."
+  group "Axelor"
+  processFiles = fileTree(projectDir) {
+    include '**/resources/**/*.xml'
+    include '**/resources/domain-models.xsd'
+    include '**/resources/object-views.xsd'
+    include '**/resources/data-import.xsd'
+    include '**/resources/templates/**/*.tmpl'
+    include '**/data/**/*config.xml'
+    include '**/webapp/package.json'
+  }
+}
+
+task generateChangeLog(type: com.axelor.gradle.tasks.GenerateChangeLog) {
+  description "Generate change logs from unreleased entries."
+  group "Axelor"
+  files = fileTree(projectDir) {
+    include 'changelogs/unreleased/*.yml'
+    include 'changelogs/unreleased/*.yaml'
+  }
+}
+
+wrapper {
+  gradleVersion = "5.6.4"
+}
+
+apply from: "gradle/javadoc.gradle"
+apply from: "gradle/style.gradle"

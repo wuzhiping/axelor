@@ -1,0 +1,78 @@
+FROM ubuntu:20.04
+
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+#jdk8
+RUN apt-get -q update && \
+    apt-get -y --no-install-recommends install curl git gnupg software-properties-common unzip && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9 && \
+    apt-add-repository "deb http://repos.azul.com/azure-only/zulu/apt stable main" && \
+    apt-get -q update && \
+    apt-get -y --no-install-recommends install zulu-8-azure-jdk=8.38.0.13 && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_HOME=/usr/lib/jvm/zulu-8-azure-amd64
+
+RUN java -version
+
+RUN apt-get -q update && \
+    apt-get -y --no-install-recommends install wget vim curl git gnupg software-properties-common sshpass gawk expect iproute2 iproute2-doc apt-utils && \
+    rm -rf /var/lib/apt/lists/*
+
+
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update
+RUN apt-get -y install postgresql
+
+ENV LANG C.UTF-8
+
+EXPOSE 8080
+
+RUN groupadd tomcat
+RUN useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+
+WORKDIR /tmp
+RUN curl -O https://downloads.apache.org/tomcat/tomcat-8/v8.5.73/bin/apache-tomcat-8.5.73.tar.gz
+RUN mkdir -p /opt/tomcat
+RUN tar -xzf apache-tomcat-*.tar.gz -C /opt/tomcat --strip-components=1
+#RUN unzip apache-tomcat-8.5.73.zip -d /opt/tomcat
+
+WORKDIR /opt/tomcat
+RUN chgrp -R tomcat /opt/tomcat
+RUN chmod -R g+r conf
+RUN chmod g+x conf
+RUN chown -R tomcat webapps/ work/ temp/ logs/
+
+WORKDIR /app
+
+RUN git clone https://github.com/axelor/open-suite-webapp.git axelor-erp
+RUN sed -e 's|git@github.com:|https://github.com/|' -i axelor-erp/.gitmodules
+
+WORKDIR /app/axelor-erp
+RUN git checkout master
+RUN git submodule sync
+RUN git submodule init
+RUN git submodule update
+RUN git submodule foreach git checkout master
+RUN git submodule foreach git pull origin master
+
+RUN ./gradlew -x test build
+
+RUN cp /app/axelor-erp/src/main/resources/application.properties /opt/tomcat/application.properties
+RUN sed 's|{java.io.tmpdir}/axelor|{user.home}/.axelor/axelor-erp/5.0|g' -i /opt/tomcat/application.properties
+
+RUN cp /app/axelor-erp/build/libs/axelor-erp-*.war /opt/tomcat/webapps/ROOT.war
+
+WORKDIR /opt/tomcat/webapps
+RUN rm -R ROOT
+RUN unzip ROOT.war -d ROOT
+#RUN chown tomcat:tomcat /usr/local/tomcat/webapps/ROOT.war
+
+#RUN export JAVA_OPTS=-Daxelor.config=/usr/local/tomcat/application.properties
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+ENV CATALINA_HOME /opt/tomcat
+
+#ENTRYPOINT /usr/local/bin/entrypoint.sh start
+CMD bash /opt/tomcat/bin/catalina.sh run
