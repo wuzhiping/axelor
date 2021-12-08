@@ -8,9 +8,9 @@ PG_USER=axelor
 PG_PASS=axelor
 PG_DATABASE_NAME=axelor
 
-APP_LANGUAGE="${APP_LANGUAGE:-en}"
-APP_DEMO_DATA="${APP_DEMO_DATA:-true}"
-APP_LOAD_APPS="${APP_LOAD_APPS:-true}"
+APP_LANGUAGE="${APP_LANGUAGE:-zh}"
+APP_DEMO_DATA="${APP_DEMO_DATA:-false}"
+APP_LOAD_APPS="${APP_LOAD_APPS:-false}"
 DEV_MODE="${DEV_MODE:-false}"
 
 APP_DATA_BASE_DIR="/app/data"
@@ -102,7 +102,7 @@ start_tomcat() {
   #${CATALINA_HOME}/bin/catalina.sh start >/dev/null &
   ${CATALINA_HOME}/bin/catalina.sh start &
 
-  if [[ ${DEV_MODE} == true ]]; then
+  if [[ ${DEV_MODE} == false ]]; then
     sleep 2 # Wait tomcat.pid to be written
     tail --pid $(cat ${CATALINA_HOME}/tomcat.pid) -F ${CATALINA_HOME}/logs/catalina.out &
   fi
@@ -205,10 +205,11 @@ if [ "$1" = "start" ]; then
 	shift
 
   update_properties
-  start_postgres
+  #start_postgres
+  touch ${PG_DATADIR}/.first_start_completed
 
   if [[ ! -f ${PG_DATADIR}/.first_start_completed ]]; then
-    init_postgres
+    #init_postgres
     init_tomcat
     start_tomcat
     install_apps

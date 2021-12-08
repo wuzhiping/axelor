@@ -50,7 +50,7 @@ RUN git submodule update
 RUN git submodule foreach git checkout master
 RUN git submodule foreach git pull origin master
 
-COPY application.properties /app/axelor-erp/src/main/resources/application.properties
+COPY application-mysql.properties /app/axelor-erp/src/main/resources/application.properties
 COPY ./abs/build.gradle /app/axelor-erp/build.gradle
 
 COPY ./adk/axelor-web/src/main/webapp/img/axelor.png          /app/axelor-erp/src/main/webapp/img/axelor.png
