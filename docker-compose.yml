@@ -1,5 +1,56 @@
 version: '2'
 services:
+  ngx:
+    image: nginx
+    restart: always
+    ports:
+      - "8786:80"
+    depends_on:
+      - bpm
+      - axelor
+    links:
+      - bpm
+      - axelor
+    environment:
+      - VER=2.0
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./webapps:/home/webapps
+
+  bpm:
+    build: ./bpm
+    image: shawoo/bpm:pouchdb
+    restart: always
+    #ports:
+    #  - "3303:3303"
+    command: /bin/bash ./start.sh
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+      - ./bpm/bpm.js:/opt/bpm/bpm.js
+      - ./bpm/OAuthApi.js:/opt/bpm/OAuthApi.js
+      - ./bpm/oauth2/:/opt/bpm/oauth2/
+      - ./bpm/start.sh:/opt/bpm/start.sh
+    environment:
+      - VER=202104150
+      - TZ=Asia/Shanghai
+      - LD_LIBRARY_PATH=/usr/local/sap/nwrfcsdk/lib
+    depends_on:
+      - redisdb
+    links:
+      - redisdb
+      - axelor
+
+  redisdb:
+    image: redis
+    restart: always
+    #ports:
+    #  - "6379:6379"
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+
   axelor:
     image: shawoo/axelor
     restart: always
@@ -9,11 +60,11 @@ services:
     links:
       - mysqldb
       - postgresdb
-    ports:
-      - "8786:8080" 
+    #ports:
+    #  - "8786:8080" 
     command: start #/bin/bash
-    #volumes:
-      #- ./ROOT:/usr/local/tomcat/webapps/ROOT
+    volumes:
+      - ./webapps:/usr/local/tomcat/webapps
     stdin_open: true
     tty: true
     privileged: true

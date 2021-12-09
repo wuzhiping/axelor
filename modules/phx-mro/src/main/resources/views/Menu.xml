@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
+
+  <menuitem name="phx-mro-root" title="MRO" order="100"
+    icon="fa-pencil-square-o" icon-background="pink" />
+
+  <menuitem name="phx-mro-home" title="MRO" parent="phx-mro-root"
+    action="action.mro.view" order="10"/>
+
+  <action-view name="action.mro.view" title="Studio">
+    <view type="html" name="studio/custom-model"/>
+  </action-view>
+
+</object-views>

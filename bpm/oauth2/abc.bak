@@ -1,0 +1,83 @@
+global request= require('request');
+
+define Inbound {
+    header:null,
+    payload:null,
+    constructor : function(header,payload){
+        this.payload = payload;
+        this.header = header;
+    }
+}
+
+rule "config"
+{
+   when{
+      i : Inbound 1==1;
+   }
+   then{
+        /*
+        console.dir(i.payload);
+        console.dir(i.header.query);
+        console.dir(i.header.req.session);
+        */
+        outBound.result = []; //i.header.req.headers.cookie;
+        //
+        var cookies = (i.header.headers.cookie || "").split(';');
+        outBound.headers = {
+            "content-type": "application/json"
+        };
+        for(var n=0;n<cookies.length;n++){
+           var o = cookies[n].trim().split('=');
+           outBound.headers[o[0]] = o[1];
+        }
+
+        //
+        const jar = request.jar();
+        const axelor = "http:\/\/axelor:8080";
+        
+        request.post({
+               url: axelor+'/callback',
+               json: { username:'admin',password:'P@ssw0rd'},
+               headers: {
+                 "content-type": "application/json",
+               },
+               jar
+             },
+             (error, response, body)=> {
+                if(error) console.warn(error);
+
+                // console.dir(response.statusCode);
+                outBound.result = {
+                       jar:jar["_jar"],
+                       cookie: outBound.headers
+                };
+
+                /*
+                const j = request.jar(); 
+                const cookie = request.cookie( i.header.headers.cookie );
+                j.setCookie(cookie,'http:\/\/ecm.feg.cn:8786');
+                outBound.result.j = j;
+                */
+                //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                request({
+                          url: axelor+'/ws/rest/com.axelor.apps.account.db.Account',
+                          method:"GET",
+                          //jar
+                          headers: outBound.headers
+                        },
+                        (error, response, body)=>{
+                              //console.dir(body);
+                              if (!error && response.statusCode == 200) {
+                                 var rows = JSON.parse(body).data ;
+                                 outBound.result = rows;
+                                 for(var n=0;n<rows.length;n++){
+                                    console.dir(rows[n].name);
+                                 }
+                              }
+                              next();
+                        });
+                //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+             });
+        //outBound.result = i.header.headers; // [{abc:"ok"}];
+   }
+}
