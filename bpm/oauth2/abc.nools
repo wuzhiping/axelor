@@ -32,6 +32,7 @@ rule "config"
                                  var rows = JSON.parse(body) ;
                                  outBound.result = rows;
                                  outBound.result.stamp = new Date();
+                                 outBound.result.ip = i.payload.from;
                               }
                               next();
                         });

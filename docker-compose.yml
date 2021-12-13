@@ -12,7 +12,7 @@ services:
       - bpm
       - axelor
     environment:
-      - VER=3.2
+      - VER=3.1
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
       #- ./webapps:/home/webapps
