@@ -13,3 +13,7 @@ docker run --rm -it \
        -p 8786:8080 \
        -v `pwd`/volumes/postgresql:/var/lib/postgresql \
        shawoo/axelor
+
+
+
+git push -u origin main

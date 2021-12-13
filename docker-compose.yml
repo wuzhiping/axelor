@@ -66,7 +66,8 @@ services:
     #  - "8786:8080" 
     command: start #/bin/bash
     volumes:
-      - ./webapps:/usr/local/tomcat/webapps
+      #- ./webapps:/usr/local/tomcat/webapps
+      - ./data:/app/data
     stdin_open: true
     tty: true
     privileged: true
