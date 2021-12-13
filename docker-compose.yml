@@ -32,6 +32,8 @@ services:
       - ./bpm/OAuthApi.js:/opt/bpm/OAuthApi.js
       - ./bpm/oauth2/:/opt/bpm/oauth2/
       - ./bpm/start.sh:/opt/bpm/start.sh
+
+      - ./share:/opt/bpm/public/share
     environment:
       - VER=202104150
       - TZ=Asia/Shanghai
