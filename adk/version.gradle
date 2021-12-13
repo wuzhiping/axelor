@@ -1,0 +1,14 @@
+ext.rcNumber = project.hasProperty("rcNumber") ? project.rcNumber.toInteger() : null
+ext.finalRelease = project.hasProperty("finalRelease")
+ext.versionFile = rootProject.name == "buildSrc" ? "../version.txt" : "version.txt"
+ext.baseVersion = rootProject.file(versionFile).text.trim()
+
+version baseVersion
+
+if (finalRelease) {
+  // use base version
+} else if (rcNumber != null) {
+  version += "-rc${rcNumber}"
+} else {
+  version += "-SNAPSHOT"
+}

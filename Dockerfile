@@ -26,7 +26,8 @@ WORKDIR /app
 #adk i18n zh
 RUN git clone https://github.com/axelor/axelor-open-platform.git
 WORKDIR /app/axelor-open-platform
-COPY ./adk/build.gradle /app/axelor-open-platform/build.gradle
+COPY ./adk/build.gradle   /app/axelor-open-platform/build.gradle
+COPY ./adk/version.gradle /app/axelor-open-platform/version.gradle
 
 COPY ./adk/axelor-web/src/main/webapp/img/axelor.png           /app/axelor-open-platform/axelor-web/src/main/webapp/img/axelor.png
 COPY ./adk/axelor-web/src/main/webapp/index.jsp                /app/axelor-open-platform/axelor-web/src/main/webapp/index.jsp
