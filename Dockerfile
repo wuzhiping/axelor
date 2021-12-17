@@ -35,6 +35,8 @@ COPY ./adk/axelor-web/src/main/webapp/index.jsp                /app/axelor-open-
 COPY ./adk/axelor-web/src/main/webapp/login.jsp                /app/axelor-open-platform/axelor-web/src/main/webapp/login.jsp
 COPY ./adk/axelor-core/src/main/resources/i18n/messages_zh.csv /app/axelor-open-platform/axelor-core/src/main/resources/i18n/messages_zh.csv
 
+COPY ./adk/about.html                                          /app/axelor-open-platform/axelor-web/src/main/webapp/partials/about.html
+
 RUN git status .
 RUN ./gradlew -x build publishToMavenLocal
 
@@ -54,6 +56,7 @@ RUN git submodule foreach git pull origin master
 
 COPY application-mysql.properties /app/axelor-erp/src/main/resources/application.properties
 COPY ./abs/build.gradle /app/axelor-erp/build.gradle
+COPY ./abs/libs.gradle  /app/axelor-erp/modules/axelor-open-suite/libs.gradle
 
 COPY ./adk/axelor-web/src/main/webapp/img/axelor.png          /app/axelor-erp/src/main/webapp/img/axelor.png
 
