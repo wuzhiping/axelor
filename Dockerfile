@@ -22,13 +22,15 @@ WORKDIR /app
 #RUN export PATH=$PATH:/opt/gradle/gradle-5.6.4/bin
 #RUN chmod +x /opt/gradle/gradle-5.6.4/bin/gradle
 #RUN /opt/gradle/gradle-5.6.4/bin/gradle -version
-
+RUN java -version
 #adk i18n zh
 RUN git clone https://github.com/axelor/axelor-open-platform.git
 WORKDIR /app/axelor-open-platform
+#RUN git checkout master
+RUN git checkout -b Shawoo v5.4.6
 COPY ./adk/build.gradle       /app/axelor-open-platform/build.gradle
 COPY ./adk/version.gradle     /app/axelor-open-platform/version.gradle
-COPY ./adk/gradle/libs.gradle /app/axelor-open-platform/gradle/libs.gradle
+#COPY ./adk/gradle/libs.gradle /app/axelor-open-platform/gradle/libs.gradle
 
 COPY ./adk/axelor-web/src/main/webapp/img/axelor.png           /app/axelor-open-platform/axelor-web/src/main/webapp/img/axelor.png
 COPY ./adk/axelor-web/src/main/webapp/index.jsp                /app/axelor-open-platform/axelor-web/src/main/webapp/index.jsp
@@ -36,8 +38,8 @@ COPY ./adk/axelor-web/src/main/webapp/login.jsp                /app/axelor-open-
 COPY ./adk/axelor-core/src/main/resources/i18n/messages_zh.csv /app/axelor-open-platform/axelor-core/src/main/resources/i18n/messages_zh.csv
 
 COPY ./adk/about.html                                          /app/axelor-open-platform/axelor-web/src/main/webapp/partials/about.html
-
 RUN git status .
+RUN git log --oneline -3
 RUN ./gradlew -x build publishToMavenLocal
 
 RUN find ~/.m2/repository/ -name "*.jar"
@@ -56,7 +58,7 @@ RUN git submodule foreach git pull origin master
 
 COPY application-mysql.properties /app/axelor-erp/src/main/resources/application.properties
 COPY ./abs/build.gradle /app/axelor-erp/build.gradle
-COPY ./abs/libs.gradle  /app/axelor-erp/modules/axelor-open-suite/libs.gradle
+#COPY ./abs/libs.gradle  /app/axelor-erp/modules/axelor-open-suite/libs.gradle
 
 COPY ./adk/axelor-web/src/main/webapp/img/axelor.png          /app/axelor-erp/src/main/webapp/img/axelor.png
 
@@ -64,11 +66,13 @@ COPY ./abs/axelor-base/src/main/resources/views/Selects.xml   /app/axelor-erp/mo
 COPY ./abs/axelor-web/src/main/resources/i18n/messages_zh.csv /app/axelor-erp/modules/axelor-open-suite/axelor-web/src/main/resources/i18n/messages_zh.csv 
 
 RUN git status .
-
+RUN git log --oneline -3
 #
-COPY ./modules/phx-mro /app/axelor-erp/modules/axelor-open-suite/phx-mro
+#COPY ./modules/phx-mro /app/axelor-erp/modules/axelor-open-suite/phx-mro
 
 RUN ./gradlew -x test build
+
+RUN find . -name "*.jar"
 
 #deploy
 RUN cp /app/axelor-erp/src/main/resources/application.properties /usr/local/tomcat/application.properties

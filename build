@@ -1,3 +1,3 @@
-docker build -t shawoo/axelor .
-
+#docker build -t shawoo/axelor:5.4.6-6.1.3 .
+docker build --no-cache -t shawoo/axelor:5.4.7-6.1.3 .
 #docker run --rm -it -p 8786:8080 shawoo/axelor start
