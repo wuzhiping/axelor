@@ -67,6 +67,8 @@ services:
     command: start #/bin/bash
     volumes:
       #- ./webapps:/usr/local/tomcat/webapps
+      - ./abc:/usr/local/tomcat/abc
+      - ./entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
       - ./data:/app/data
     stdin_open: true
     tty: true

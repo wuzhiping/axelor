@@ -68,7 +68,7 @@ init_postgres() {
 update_properties() {
   echo "Configuring app:properties"
 
-  local APP_PROP_FILE_PATH="${CATALINA_HOME}/application.properties"
+  local APP_PROP_FILE_PATH="${CATALINA_HOME}/abc/application.properties"
   #local APP_PROP_FILE_PATH="${CATALINA_HOME}/webapps/ROOT/WEB-INF/classes/application.properties"
   local APP_MODE="prod"
   local LOG_LEVEL="INFO"
@@ -204,7 +204,7 @@ findAndReplace() {
 if [ "$1" = "start" ]; then
 	shift
 
-  update_properties
+  #update_properties
   #start_postgres
   touch ${PG_DATADIR}/.first_start_completed
 

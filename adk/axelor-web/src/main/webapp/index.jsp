@@ -114,7 +114,7 @@ String tenantId = (String) session.getAttribute("tenantId");
               </li>
               <li class="divider-vertical"></li>
             </ul>
-            <% if (appLogo == null || "".equals(appLogo)) { %>
+            <% if (appLogo == null || "".equals(appLogo) || true) { %>
             <a class="brand" href="<%= appHome %>"><%= appName %></a>
             <% } else { %>
             <a class="brand-logo" href="<%= appHome %>">

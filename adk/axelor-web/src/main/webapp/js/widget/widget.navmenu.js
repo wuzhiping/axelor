@@ -159,7 +159,8 @@ ui.directive('navMenuBar', function() {
       function setup() {
 
         element.siblings().each(function () {
-          siblingsWidth += $(this).width();
+          if( $(this)[0].nodeName !== 'SCRIPT')
+             siblingsWidth += $(this).width();
         });
 
         elemTop = element.find('.nav-menu.dropdown:not(.nav-menu-more)');
