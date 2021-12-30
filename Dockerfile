@@ -66,7 +66,10 @@ COPY ./abs/build.gradle /app/axelor-erp/build.gradle
 COPY ./adk/axelor-web/src/main/webapp/img/axelor.png          /app/axelor-erp/src/main/webapp/img/axelor.png
 
 COPY ./abs/axelor-base/src/main/resources/views/Selects.xml   /app/axelor-erp/modules/axelor-open-suite/axelor-base/src/main/resources/views/Selects.xml
-COPY ./abs/axelor-web/src/main/resources/i18n/messages_zh.csv /app/axelor-erp/modules/axelor-open-suite/axelor-web/src/main/resources/i18n/messages_zh.csv 
+COPY ./abs/axelor-web/src/main/resources/i18n/messages_zh.csv /app/axelor-erp/modules/axelor-open-suite/axelor-web/src/main/resources/i18n/messages_zh.csv
+
+COPY ./abs/index-nav-buttons.jsp                              /app/axelor-erp/src/main/webapp/index-nav-buttons.jsp
+
 COPY ./modules/axelor-open-suite/axelor-studio/src/main/webapp/studio/mapper/index.html       /app/axelor-erp/modules/axelor-open-suite/axelor-studio/src/main/webapp/studio/mapper/index.html
 COPY ./modules/axelor-open-suite/axelor-studio/src/main/webapp/studio/custom-model/index.html /app/axelor-erp/modules/axelor-open-suite/axelor-studio/src/main/webapp/studio/custom-model/index.html
 
