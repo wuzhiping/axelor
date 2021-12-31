@@ -86,6 +86,17 @@ services:
       POSTGRES_USER: axelor
       POSTGRES_PASSWORD: axelor
 
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    links:
+      - postgresdb
+    ports:
+      - "5433:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=wuzhiping@qq.com
+      - PGADMIN_DEFAULT_PASSWORD=100861
+
   mysqldb:
     image: shawoo/mysql:5.7.15
     restart: always
