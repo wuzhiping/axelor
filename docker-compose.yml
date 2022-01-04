@@ -15,7 +15,6 @@ services:
       - VER=3.1
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
-      #- ./webapps:/home/webapps
 
   bpm:
     build: ./bpm
@@ -66,10 +65,15 @@ services:
     #  - "8786:8080" 
     command: start #/bin/bash
     volumes:
-      #- ./webapps:/usr/local/tomcat/webapps
+      - ./webapps:/usr/local/tomcat/webapps
+      - ./ROOT-5.4.6-6.1.2.war:/usr/local/tomcat/webapps/ROOT.war
       - ./abc:/usr/local/tomcat/abc
       - ./entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
       - ./data:/app/data
+      - ./modules/phx-mro:/app/axelor-erp/modules/axelor-open-suite/phx-mro
+    working_dir: /app/axelor-erp/modules/axelor-open-suite/phx-mro
+    environment:
+      modules: phx-mor-0.0.1
     stdin_open: true
     tty: true
     privileged: true

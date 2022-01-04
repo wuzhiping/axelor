@@ -2,4 +2,5 @@ mysql
 webapps
 share
 data
+build
 *.war

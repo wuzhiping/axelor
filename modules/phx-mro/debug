@@ -1,0 +1,7 @@
+/app/axelor-erp/gradlew -x test build
+
+find /usr/local/tomcat/webapps/ -name "phx*.jar"
+find . -name "phx*.jar"
+
+rm   /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/phx-mro-*.jar
+cp   ./build/libs/phx-mro-0.0.1.jar /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/

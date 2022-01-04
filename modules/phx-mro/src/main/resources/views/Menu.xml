@@ -3,14 +3,14 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
 
-  <menuitem name="phx-mro-root" title="MRO" order="100"
-    icon="fa-pencil-square-o" icon-background="pink" />
+  <menuitem name="phx-mro-root" title="MRO" order="-1000" icon="fa-pencil-square-o"
+    icon-background="pink"/>
 
-  <menuitem name="phx-mro-home" title="MRO" parent="phx-mro-root"
-    action="action.mro.view" order="10"/>
+  <menuitem name="phx-mro-home" title="MRO" parent="phx-mro-root" action="action.mro.view"
+    order="-1000"/>
 
-  <action-view name="action.mro.view" title="Studio">
-    <view type="html" name="studio/custom-model"/>
+  <action-view name="action.mro.view" title="ABC">
+    <view type="html" name="oauth2/abc"/>
   </action-view>
 
 </object-views>
