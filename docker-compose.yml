@@ -72,6 +72,7 @@ services:
       - ./data:/app/data
       - ./modules/phx-mro:/app/axelor-erp/modules/axelor-open-suite/phx-mro
     working_dir: /app/axelor-erp/modules/axelor-open-suite/phx-mro
+    #working_dir: /usr/local/tomcat/webapps/ROOT
     environment:
       modules: phx-mor-0.0.1
     stdin_open: true

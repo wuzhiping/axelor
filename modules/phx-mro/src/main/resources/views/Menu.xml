@@ -6,11 +6,13 @@
   <menuitem name="phx-mro-root" title="MRO" order="-1000" icon="fa-pencil-square-o"
     icon-background="pink"/>
 
-  <menuitem name="phx-mro-home" title="MRO" parent="phx-mro-root" action="action.mro.view"
-    order="-1000"/>
+  <menuitem name="phx-mro-abc" title="ABC" parent="phx-mro-root" action="action.mro.view.abc" order="-1000"/>
+  <action-view name="action.mro.view.abc" title="ABC"> <view type="html" name="oauth2/abc"/></action-view>
 
-  <action-view name="action.mro.view" title="ABC">
-    <view type="html" name="oauth2/abc"/>
-  </action-view>
+  <menuitem name="phx-mro-Login" title="Login" parent="phx-mro-root" action="action.mro.view.login" order="100"/>
+  <action-view name="action.mro.view.login" title="Login"> <view type="html" name="oauth2/login"/></action-view>
+
+  <menuitem name="phx-mro-xyz" title="XYZ" parent="phx-mro-root" action="action.mro.view.xyz" order="100"/>
+  <action-view name="action.mro.view.xyz" title="Login"> <view type="html" name="oauth2/xyz"/></action-view>
 
 </object-views>

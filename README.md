@@ -1,3 +1,8 @@
+./debug
+
+docker-compose restart axelor
+
+
 find . -type f -name "*.jsp" | xargs  grep -Hn --color=auto "password"
 
 
