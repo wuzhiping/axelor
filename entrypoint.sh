@@ -10,7 +10,7 @@ PG_DATABASE_NAME=axelor
 
 APP_LANGUAGE="${APP_LANGUAGE:-zh}"
 APP_DEMO_DATA="${APP_DEMO_DATA:-false}"
-APP_LOAD_APPS="${APP_LOAD_APPS:-false}"
+APP_LOAD_APPS="${APP_LOAD_APPS:-true}"
 DEV_MODE="${DEV_MODE:-false}"
 
 APP_DATA_BASE_DIR="/app/data"
@@ -70,6 +70,7 @@ update_properties() {
 
   local APP_PROP_FILE_PATH="${CATALINA_HOME}/abc/application.properties"
   #local APP_PROP_FILE_PATH="${CATALINA_HOME}/webapps/ROOT/WEB-INF/classes/application.properties"
+  cp ${CATALINA_HOME}/abc/application.properties ${CATALINA_HOME}/webapps/ROOT/WEB-INF/classes/application.properties
   local APP_MODE="prod"
   local LOG_LEVEL="INFO"
   if [[ ${DEV_MODE} == true ]]; then
@@ -77,22 +78,22 @@ update_properties() {
     LOG_LEVEL="DEBUG"
   fi
 
-  findAndReplace "db.default.dialect" "org.hibernate.dialect.PostgreSQLDialect" ${APP_PROP_FILE_PATH}
-  findAndReplace "db.default.driver" "org.postgresql.Driver" ${APP_PROP_FILE_PATH}
-  findAndReplace "db.default.ddl" "update" ${APP_PROP_FILE_PATH}
-  findAndReplace "db.default.url" "jdbc:postgresql://localhost:5432/$PG_DATABASE_NAME" ${APP_PROP_FILE_PATH}
-  findAndReplace "db.default.user" "${PG_USER}" ${APP_PROP_FILE_PATH}
-  findAndReplace "db.default.password" "${PG_PASS}" ${APP_PROP_FILE_PATH}
-  findAndReplace "file.upload.dir" "${APP_DATA_ATTACHMENTS_DIR}" ${APP_PROP_FILE_PATH}
-  findAndReplace "data.export.dir" "${APP_DATA_EXPORTS_DIR}" ${APP_PROP_FILE_PATH}
-  findAndReplace "application.mode" "${APP_MODE}" ${APP_PROP_FILE_PATH}
-  findAndReplace "quartz.enable" "false" ${APP_PROP_FILE_PATH}
-  findAndReplace "data.import.demo-data" "${APP_DEMO_DATA}" ${APP_PROP_FILE_PATH}
-  findAndReplace "temp.dir" "{java.io.tmpdir}" ${APP_PROP_FILE_PATH}
-  findAndReplace "logging.level.com.axelor" "${LOG_LEVEL}" ${APP_PROP_FILE_PATH}
-  findAndReplace "hibernate.search.default.directory_provider" "none" ${APP_PROP_FILE_PATH}
-  findAndReplace "hibernate.hikari.minimumIdle" "1" ${APP_PROP_FILE_PATH}
-  findAndReplace "hibernate.hikari.maximumPoolSize" "10" ${APP_PROP_FILE_PATH}
+  #findAndReplace "db.default.dialect" "org.hibernate.dialect.PostgreSQLDialect" ${APP_PROP_FILE_PATH}
+  #findAndReplace "db.default.driver" "org.postgresql.Driver" ${APP_PROP_FILE_PATH}
+  #findAndReplace "db.default.ddl" "update" ${APP_PROP_FILE_PATH}
+  #findAndReplace "db.default.url" "jdbc:postgresql://localhost:5432/$PG_DATABASE_NAME" ${APP_PROP_FILE_PATH}
+  #findAndReplace "db.default.user" "${PG_USER}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "db.default.password" "${PG_PASS}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "file.upload.dir" "${APP_DATA_ATTACHMENTS_DIR}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "data.export.dir" "${APP_DATA_EXPORTS_DIR}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "application.mode" "${APP_MODE}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "quartz.enable" "false" ${APP_PROP_FILE_PATH}
+  #findAndReplace "data.import.demo-data" "${APP_DEMO_DATA}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "temp.dir" "{java.io.tmpdir}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "logging.level.com.axelor" "${LOG_LEVEL}" ${APP_PROP_FILE_PATH}
+  #findAndReplace "hibernate.search.default.directory_provider" "none" ${APP_PROP_FILE_PATH}
+  #findAndReplace "hibernate.hikari.minimumIdle" "1" ${APP_PROP_FILE_PATH}
+  #findAndReplace "hibernate.hikari.maximumPoolSize" "10" ${APP_PROP_FILE_PATH}
 }
 
 # Start Tomcat
@@ -204,7 +205,7 @@ findAndReplace() {
 if [ "$1" = "start" ]; then
 	shift
 
-  #update_properties
+  update_properties
   #start_postgres
   touch ${PG_DATADIR}/.first_start_completed
 

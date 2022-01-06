@@ -48,7 +48,7 @@ app.use(express.session({
       store: sessionStore,
       key:'keystone.sid'
     //,secret: 'recommand 128 bytes random string'
-      ,cookie: { maxAge: 7* 24 * 60 * 60 * 1000 }
+      //,cookie: { maxAge: 7* 24 * 60 * 60 * 1000 }
 }));
 
 app.use(express.logger({format:':req[x-forwarded-for] [:date[iso]] :method :url :status :res[content-length] - :response-time ms'}));

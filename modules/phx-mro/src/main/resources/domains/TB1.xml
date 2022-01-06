@@ -8,9 +8,9 @@
   <entity name="TB1">
 
     <string name="name"/>
-    <string name="C1"/>
-    <string name="C2"/>
-
+    <string name="c1"/>
+    <string name="c2"/>
+    <integer name="i3" default="1"/>
   </entity>
 
 </domain-models>

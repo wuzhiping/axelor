@@ -16,27 +16,7 @@ rule "config"
    }
    then{
         outBound.result = {};
- 
-        const axelor = "http:\/\/axelor:8080";
-                //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                request({
-                          url: axelor+'/ws/app/info',
-                          method:"GET",
-                          headers: {
-                              "content-type": "application/json",
-                                    "Cookie":  i.header.headers.cookie || ""
-                          }
-                        },
-                        (error, response, body)=>{
-                              if (!error && response.statusCode == 200) {
-                                 var rows = JSON.parse(body) ;
-                                 outBound.result = rows;
-                                 outBound.result.stamp = new Date();
-                                 outBound.result.ip = i.payload.from;
-                              }
-                              next();
-                        });
-                //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         outBound.result = i.header.req.session;
    }
 }
 

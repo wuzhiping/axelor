@@ -34,7 +34,7 @@ services:
 
       - ./share:/opt/bpm/public/share
     environment:
-      - VER=202104150
+      - VER=202104151
       - TZ=Asia/Shanghai
       - LD_LIBRARY_PATH=/usr/local/sap/nwrfcsdk/lib
     depends_on:
@@ -74,15 +74,15 @@ services:
     working_dir: /app/axelor-erp/modules/axelor-open-suite/phx-mro
     #working_dir: /usr/local/tomcat/webapps/ROOT
     environment:
-      modules: phx-mor-0.0.1
+      modules: phx-mor-0.0.6
     stdin_open: true
     tty: true
     privileged: true
 
   postgresdb:
     image: postgres:10
-    #volumes:
-    #  - "./postgresql/data:/var/lib/postgresql/data"
+    volumes:
+      - "./postgresql/data:/var/lib/postgresql/data"
     restart: always
     ports:
       - "5555:5432"
