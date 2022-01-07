@@ -59,10 +59,8 @@ services:
     environment:
       - VER=1.0
     depends_on:
-      - mysqldb
       - postgresdb
     links:
-      - mysqldb
       - postgresdb
     #ports:
     #  - "8786:8080" 
@@ -105,16 +103,16 @@ services:
       - PGADMIN_DEFAULT_EMAIL=wuzhiping@qq.com
       - PGADMIN_DEFAULT_PASSWORD=100861
 
-  mysqldb:
-    image: shawoo/mysql:5.7.15
-    restart: always
-    ports:
-      - "3333:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: axelor
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - ./mysql/data:/var/lib/mysql/
-      - ./mysql/config:/etc/mysql/conf.d/
+  #mysqldb:
+  #  image: shawoo/mysql:5.7.15
+  #  restart: always
+  #  ports:
+  #    - "3333:3306"
+  #  environment:
+  #    MYSQL_ROOT_PASSWORD: axelor
+  #  volumes:
+  #    - /etc/localtime:/etc/localtime:ro
+  #    - /etc/timezone:/etc/timezone:ro
+  #    - ./mysql/data:/var/lib/mysql/
+  #    - ./mysql/config:/etc/mysql/conf.d/
 

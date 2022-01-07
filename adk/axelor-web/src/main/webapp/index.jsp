@@ -76,6 +76,26 @@ String tenantId = (String) session.getAttribute("tenantId");
     <meta name="description" content="<%= appDesc %>">
     <meta name="author" content="<%= appAuthor %>">
 
+    <link rel=manifest href=/pwa/manifest.json>
+    <script>
+        console.dir('serviceWorker');
+        console.dir(new Date().getTime());
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('./service-worker.js', { scope: './' })
+                .then(registration => {
+                    console.log(
+                        'ServiceWorker registration successful with scope: ',
+                        registration.scope
+                    )
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err)
+                })
+        }
+    </script>
+
     <!-- Styles -->
     <x:style src="css/application.css" />
     <% for (String style : StaticResources.getStyles()) { %>
@@ -92,7 +112,6 @@ String tenantId = (String) session.getAttribute("tenantId");
       list-style:none !important;
     }
 
-    * { -webkit-user-select:none; }
     ::-webkit-scrollbar { width:0;height:10px; }
     ::-webkit-scrollbar-thumb { background-color:#DDD; }
 
@@ -188,6 +207,10 @@ String tenantId = (String) session.getAttribute("tenantId");
     </header>
 
     <div ng-include x-src="'partials/login-window.html'"></div>
+    <script>
+        setTimeout( function() { document.getElementById('usernameId').value =  localStorage.getItem('lUID') || '';},10000);
+    </script>
+
     <div ng-include x-src="'partials/error-window.html'"></div>
 
     <section role="main" id="container" ng-switch x-on="routePath[0]">

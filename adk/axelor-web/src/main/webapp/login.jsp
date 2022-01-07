@@ -76,7 +76,7 @@ String callbackUrl = AuthPac4jModule.getCallbackUrl();
 Set<String> centralClients = AuthPac4jModule.getCentralClients();
 %>
 <!DOCTYPE html>
-<html>
+<html style="height:100%;">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -85,15 +85,15 @@ Set<String> centralClients = AuthPac4jModule.getCentralClients();
     <x:style src="css/application.login.css" />
     <x:script src="js/application.login.js" />
   </head>
-  <body>
+  <body style="height:100%;padding-top:0!important;">
 
     <% if (loginHeader != null) { %>
     <jsp:include page="<%= loginHeader %>" />
     <% } %>
 
-    <div class="container-fluid">
-      <div class="panel login-panel">
-        <div class="panel-header panel-default">
+    <div class="container-fluid" style="height:calc(100% - 66px);">
+      <div class="panel login-panel" style="position:absolute; top:0;left:0;bottom:0;right:0;height:50%;margin:auto;">
+        <div class="panel-header panel-default" style="background-color:transparent;border:1px solid #999;">
           <img src="img/axelor.png" width="192px">
         </div>
 
@@ -150,7 +150,6 @@ Set<String> centralClients = AuthPac4jModule.getCentralClients();
             </div>
           </form>
         </div>
-      </div>
       <div id="br-warning" class="alert alert-block alert-error hidden">
 	  	<h4><%= warningBrowser %></h4>
 	  	<ul>
@@ -165,7 +164,7 @@ Set<String> centralClients = AuthPac4jModule.getCentralClients();
 	  	<div><%= warningAdblock2 %></div>
 	  </div>
     </div>
-
+    </div>
     <footer class="container-fluid">
       <p class="credit small"><%= copyright %></p>
     </footer>
@@ -187,8 +186,14 @@ Set<String> centralClients = AuthPac4jModule.getCentralClients();
 	         + "&hash_location=" + encodeURIComponent(window.location.hash);
 	    });
 
+    	document.getElementById("usernameId").value =  localStorage.getItem("lUID") || "";
+
         $('#login-form').submit(function(e) {
           document.getElementById("hash-location").value = window.location.hash;
+
+          localStorage.removeItem("lUID");
+	  localStorage.setItem("lUID", document.getElementById("usernameId").value);
+
         });
     });
         </script>

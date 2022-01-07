@@ -1,0 +1,13 @@
+@media screen and (min-width: 1280px){
+  
+  * { -webkit-user-select:none; }
+  
+}
+
+.calendar-side { display:none; }
+
+.panel .panel-title {
+  border-left: 4px solid rgba(0,100,200,0.2);
+  padding-left: 4px;
+  margin-left: -8px;
+}

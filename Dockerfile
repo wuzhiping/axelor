@@ -41,6 +41,7 @@ COPY ./adk/axelor-web/src/main/webapp/js/widget/widget.navmenu.js /app/axelor-op
 COPY ./adk/axelor-core/src/main/resources/i18n/messages_zh.csv /app/axelor-open-platform/axelor-core/src/main/resources/i18n/messages_zh.csv
 
 COPY ./adk/about.html                                          /app/axelor-open-platform/axelor-web/src/main/webapp/partials/about.html
+COPY ./adk/system.html                                         /app/axelor-open-platform/axelor-web/src/main/webapp/partials/system.html
 RUN git status .
 RUN git log --oneline -3
 RUN ./gradlew -x build publishToMavenLocal
@@ -53,6 +54,8 @@ RUN git clone https://github.com/axelor/open-suite-webapp.git axelor-erp
 RUN sed -e 's|git@github.com:|https://github.com/|' -i axelor-erp/.gitmodules
 WORKDIR /app/axelor-erp
 RUN git checkout master
+#RUN git checkout -b Shawoo v6.1.3
+
 RUN git submodule sync
 RUN git submodule init
 RUN git submodule update
