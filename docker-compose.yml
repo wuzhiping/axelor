@@ -12,7 +12,7 @@ services:
       - bpm
       - axelor
     environment:
-      - VER=6.0
+      - VER=6.2
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
       - ./ssl:/etc/nginx/ssl
