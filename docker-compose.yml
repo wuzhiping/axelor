@@ -4,7 +4,7 @@ services:
     image: nginx
     restart: always
     ports:
-      - "8786:80"
+      - "8786:443"
     depends_on:
       - bpm
       - axelor
@@ -12,10 +12,11 @@ services:
       - bpm
       - axelor
     environment:
-      - VER=3.1
+      - VER=6.0
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
-
+      - ./ssl:/etc/nginx/ssl
+      - ./pwa:/home/pwa
   bpm:
     build: ./bpm
     image: shawoo/bpm:pouchdb

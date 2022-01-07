@@ -1,0 +1,19 @@
+    <link rel=manifest href=./pwa/manifest.json>
+    <script>
+        console.dir('serviceWorker');
+        console.dir(new Date().getTime());
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('./pwa/service-worker.js', { scope: './' })
+                .then(registration => {
+                    console.log(
+                        'ServiceWorker registration successful with scope: ',
+                        registration.scope
+                    )
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err)
+                })
+        }
+    </script>
