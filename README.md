@@ -1,3 +1,6 @@
+# tmux new -s Kanban
+# tmux a -t Kanban
+
 ./debug
 
 docker-compose restart axelor
