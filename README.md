@@ -1,5 +1,5 @@
-# tmux new -s Kanban
-# tmux a -t Kanban
+# tmux new -s kanban
+# tmux a -t kanban
 
 ./debug
 
